@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1013567541143",
+    "project_id": "fir-link-3b236",
+    "storage_bucket": "fir-link-3b236.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1013567541143:android:d51c6e17cc941589d23ed2",
+        "android_client_info": {
+          "package_name": "mx.linkom.caseta_demolink"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHGMeeiwxuQd79wOqSRM-8aEKSEb1qtHE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
