@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fontFamily="@font/fontNegritaC"
+
+    >
+
+    <item
+        android:id="@+id/Usuario"
+        android:icon="@drawable/ic_usuario"
+        app:showAsAction="ifRoom"
+        android:title="" />
+
+
+            <item
+                android:id="@+id/Inicio"
+                android:icon="@drawable/ic_inicio"
+                android:title="@string/Inicio"
+                app:showAsAction="ifRoom"
+
+                />
+
+    <!--<item
+        android:id="@+id/subirFotos"
+        android:title="Fotos pendientes"
+        android:visibility="visible"
+        android:icon="@drawable/subir_fotos_icon"
+        app:actionLayout="@id/Inicio"
+        app:showAsAction="always"
+        tools:visibility="visible" />-->
+
+    <item
+        android:id="@+id/Cerrar"
+        android:icon="@drawable/ic_salir"
+        android:title="@string/Cerrar"
+        app:showAsAction="ifRoom"
+        />
+    <item
+        android:id="@+id/Version"
+        android:icon="@drawable/ic_info"
+        android:title="v. 25.26.42"
+        app:showAsAction="ifRoom"
+        />
+
+</menu>
