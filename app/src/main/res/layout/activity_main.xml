@@ -307,7 +307,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Linkom © v.25.26.42"
+            android:text="Linkom © v.24.22.38"
             android:textColor="#fff"
             android:letterSpacing="0.025"
             android:textSize="14dp"

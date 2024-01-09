@@ -7,7 +7,7 @@ public class Global {
     public static String USER = "";
     public static String PASS = "";
 
-    public static String VERSION_APP = "25.26.42";
+    public static String VERSION_APP = "24.22.38";
     public static boolean FOTO_PLACA = false;
 
     public static boolean getFotoPlaca() {

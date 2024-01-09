@@ -367,7 +367,7 @@ public class DashboardActivity extends  mx.linkom.caseta_demolink.Menu {
 
                         if (!Global.getVersionApp().trim().equals(ja3.getString(16).trim())){
                             anuncioVersiones.setVisibility(View.VISIBLE);
-                            textViewVersionDisponible.setText("Versión: San Mateo Residencial " + ja3.getString(16));
+                            textViewVersionDisponible.setText("Versión: DEMO ELKM " + ja3.getString(16));
                             AnimationUtil.startAnimation(DashboardActivity.this, anuncioVersiones);
 
                             anuncioVersiones.setOnClickListener(new View.OnClickListener() {
@@ -376,13 +376,13 @@ public class DashboardActivity extends  mx.linkom.caseta_demolink.Menu {
 
                                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(DashboardActivity.this);
                                     alertDialogBuilder.setTitle("Nueva actualización disponible");
-                                    alertDialogBuilder.setMessage("Caseta San Mateo Residencial: \n\n1.- Clic en actualizar \n2.- Una vez descargado el archivo .apk cerrar sesion y actualizar app");
+                                    alertDialogBuilder.setMessage("Caseta DEMO ELKM: \n\n1.- Clic en actualizar \n2.- Una vez descargado el archivo .apk cerrar sesion y actualizar app");
 
                                     alertDialogBuilder.setPositiveButton("Actualizar", new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
                                             String url = null;
                                             try {
-                                                url = "https://descargas.linkom.mx/apk/CASETA_SANMATEO_"+ ja3.getString(16).replace(".","").trim() +".apk";
+                                                url = "https://descargas.linkom.mx/apk/CASETA_DEMO_ELKM_"+ ja3.getString(16).replace(".","").trim() +".apk";
                                             } catch (JSONException e) {
                                                 e.printStackTrace();
                                             }
