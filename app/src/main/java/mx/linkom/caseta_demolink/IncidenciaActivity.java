@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -77,6 +78,8 @@ public class IncidenciaActivity  extends mx.linkom.caseta_demolink.Menu{
     Uri uri_img,uri_img2,uri_img3;
 
     String rutaImagen1="", rutaImagen2="", rutaImagen3="", rutaImagenPlaca="", nombreImagen1="", nombreImagen2="", nombreImagen3="", nombreImagenPlaca="";
+
+    private int btnRegistrarPresionado = 0;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -152,7 +155,17 @@ public class IncidenciaActivity  extends mx.linkom.caseta_demolink.Menu{
         btnContinuar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Validacion(1);
+                btnContinuar.setEnabled(false);
+
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+
+                        btnRegistrarPresionado = 1;
+                        botonPresionado(0);
+                        Validacion(1);
+                    }
+                }, 300);
             }
         });
 
@@ -169,7 +182,16 @@ public class IncidenciaActivity  extends mx.linkom.caseta_demolink.Menu{
         btnContinuar3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Validacion(2);
+                btnContinuar3.setEnabled(false);
+
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        btnRegistrarPresionado = 2;
+                        botonPresionado(0);
+                        Validacion(2);
+                    }
+                }, 300);
             }
         });
 
@@ -186,14 +208,32 @@ public class IncidenciaActivity  extends mx.linkom.caseta_demolink.Menu{
         btnContinuar5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Validacion(3);
+                btnContinuar5.setEnabled(false);
+
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        btnRegistrarPresionado = 3;
+                        botonPresionado(0);
+                        Validacion(3);
+                    }
+                }, 300);
             }
         });
 
         btnContinuar6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Validacion(4);
+                btnContinuar6.setEnabled(false);
+
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        btnRegistrarPresionado = 4;
+                        botonPresionado(0);
+                        Validacion(4);
+                    }
+                }, 300);
             }
         });
 
@@ -498,21 +538,22 @@ public class IncidenciaActivity  extends mx.linkom.caseta_demolink.Menu{
                     public void onClick(DialogInterface dialog, int id) {
                         pd.show();
                         Registrar(Ids);
-                        btnContinuar.setEnabled(false);
+                        /*btnContinuar.setEnabled(false);
                         btnContinuar3.setEnabled(false);
                         btnContinuar5.setEnabled(false);
-                        btnContinuar6.setEnabled(false);
+                        btnContinuar6.setEnabled(false);*/
 
                     }
                 })
                 .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
-                        Intent i = new Intent(getApplicationContext(), mx.linkom.caseta_demolink.ReportesActivity.class);
+                        botonPresionado(1);
+                        /*Intent i = new Intent(getApplicationContext(), mx.linkom.caseta_linkaccess.ReportesActivity.class);
                         startActivity(i);
-                        finish();
+                        finish();*/
                     }
-                }).create().show();
+                }).setCancelable(false).create().show();
     }
 
     public void Registrar(final int Id){
@@ -528,6 +569,7 @@ public class IncidenciaActivity  extends mx.linkom.caseta_demolink.Menu{
 
                 if(response.equals("error")){
                     pd.dismiss();
+                    botonPresionado(1);
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(IncidenciaActivity.this);
                     alertDialogBuilder.setTitle("Alerta");
@@ -608,6 +650,8 @@ public class IncidenciaActivity  extends mx.linkom.caseta_demolink.Menu{
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("TAG","Error: " + error.toString());
+                botonPresionado(1);
+                alertaErrorAlRegistrar("Error al registrar incidencia \n\nNo se ha podido establecer comunicación con el servidor, inténtelo de nuevo");
             }
         }){
             @Override
@@ -823,6 +867,51 @@ public class IncidenciaActivity  extends mx.linkom.caseta_demolink.Menu{
             }
         }
         return false;
+    }
+
+    public void botonPresionado(int estado){
+        //estado --> 0=presionado   1=restablecer
+
+        Button button = btnContinuar;
+
+        switch (btnRegistrarPresionado){
+            case 1:
+                button = btnContinuar;
+                break;
+            case 2:
+                button = btnContinuar3;
+                break;
+            case 3:
+                button = btnContinuar5;
+                break;
+            case 4:
+                button = btnContinuar6;
+                break;
+            default:
+                break;
+        }
+
+        if (estado == 0){
+            button.setBackgroundResource(R.drawable.btn_presionado);
+            button.setTextColor(0xFF5A6C81);
+        }else if (estado == 1){
+            button.setBackgroundResource(R.drawable.ripple_effect);
+            button.setTextColor(0xFF27374A);
+            button.setEnabled(true);
+        }
+    }
+
+    public void alertaErrorAlRegistrar(String texto){
+        pd.dismiss();
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(IncidenciaActivity.this);
+        alertDialogBuilder.setTitle("Alerta");
+        alertDialogBuilder
+                .setMessage(texto)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                }).create().show();
     }
 
     @Override

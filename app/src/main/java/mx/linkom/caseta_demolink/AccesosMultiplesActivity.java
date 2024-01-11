@@ -15,6 +15,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
 import android.text.InputFilter;
@@ -129,6 +130,8 @@ public class AccesosMultiplesActivity extends mx.linkom.caseta_demolink.Menu {
 
     private ImageButton btnMicrofonoComentarios;
     private static final int TXT_COMENTARIOS = 200;
+
+    private int btnRegistrarPresionado = 0;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -353,28 +356,65 @@ public class AccesosMultiplesActivity extends mx.linkom.caseta_demolink.Menu {
         reg1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Validacion();
+                reg1.setEnabled(false);
+
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+
+                        btnRegistrarPresionado = 1;
+                        botonPresionado(0);
+                        Validacion();
+                    }
+                }, 300);
             }
         });
 
         reg2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Validacion();
+                reg2.setEnabled(false);
+
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        btnRegistrarPresionado = 2;
+                        botonPresionado(0);
+                        Validacion();
+                    }
+                }, 300);
             }
         });
 
         reg3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Validacion();
+                reg3.setEnabled(false);
+
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        btnRegistrarPresionado = 3;
+                        botonPresionado(0);
+                        Validacion();
+                    }
+                }, 300);
             }
         });
 
         reg4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Validacion();
+                reg4.setEnabled(false);
+
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        btnRegistrarPresionado = 4;
+                        botonPresionado(0);
+                        Validacion();
+                    }
+                }, 300);
             }
         });
 
@@ -1740,12 +1780,13 @@ public class AccesosMultiplesActivity extends mx.linkom.caseta_demolink.Menu {
                 .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
-                        Intent i = new Intent(getApplicationContext(), EntradasSalidasActivity.class);
+                        botonPresionado(1);
+                        /*Intent i = new Intent(getApplicationContext(), EntradasSalidasActivity.class);
                         startActivity(i);
-                        finish();
+                        finish();*/
 
                     }
-                }).create().show();
+                }).setCancelable(false).create().show();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -1943,14 +1984,17 @@ public class AccesosMultiplesActivity extends mx.linkom.caseta_demolink.Menu {
 
         if ((Placas.getText().toString().equals("") && si.isChecked() && !Global.getFotoPlaca()) || (Global.getFotoPlaca() && editTextPlacasPorFoto.getText().toString().equals(""))) {
             pd.dismiss();
+            botonPresionado(1);
 
             Toast.makeText(getApplicationContext(), "Campo de placas", Toast.LENGTH_SHORT).show();
         } else if ((Placas.getText().toString().equals(" ") && si.isChecked() && !Global.getFotoPlaca()) || (Global.getFotoPlaca() && editTextPlacasPorFoto.getText().toString().equals(" "))) {
             pd.dismiss();
+            botonPresionado(1);
 
             Toast.makeText(getApplicationContext(), "Campo de placas ", Toast.LENGTH_SHORT).show();
         } else if ((Placas.getText().toString().equals("N/A") && si.isChecked() && !Global.getFotoPlaca()) || (Global.getFotoPlaca() && editTextPlacasPorFoto.getText().toString().equals("N/A"))) {
             pd.dismiss();
+            botonPresionado(1);
 
             Toast.makeText(getApplicationContext(), "Campo de placas", Toast.LENGTH_SHORT).show();
         } else {
@@ -1965,6 +2009,7 @@ public class AccesosMultiplesActivity extends mx.linkom.caseta_demolink.Menu {
 
                     if (response.equals("error")) {
                         pd.dismiss();
+                        botonPresionado(1);
 
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AccesosMultiplesActivity.this);
                         alertDialogBuilder.setTitle("Alerta");
@@ -2054,6 +2099,8 @@ public class AccesosMultiplesActivity extends mx.linkom.caseta_demolink.Menu {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.e("TAG", "Error: " + error.toString());
+                    botonPresionado(1);
+                    alertaErrorAlRegistrar("Error al registrar visita \n\nNo se ha podido establecer comunicación con el servidor, inténtelo de nuevo");
                 }
             }) {
                 @Override
@@ -2338,6 +2385,50 @@ public class AccesosMultiplesActivity extends mx.linkom.caseta_demolink.Menu {
         return false;
     }
 
+    public void botonPresionado(int estado){
+        //estado --> 0=presionado   1=restablecer
+
+        Button button = reg1;
+
+        switch (btnRegistrarPresionado){
+            case 1:
+                button = reg1;
+                break;
+            case 2:
+                button = reg2;
+                break;
+            case 3:
+                button = reg3;
+                break;
+            case 4:
+                button = reg4;
+                break;
+            default:
+                break;
+        }
+
+        if (estado == 0){
+            button.setBackgroundResource(R.drawable.btn_presionado);
+            button.setTextColor(0xFF5A6C81);
+        }else if (estado == 1){
+            button.setBackgroundResource(R.drawable.ripple_effect);
+            button.setTextColor(0xFF27374A);
+            button.setEnabled(true);
+        }
+    }
+
+    public void alertaErrorAlRegistrar(String texto){
+        pd.dismiss();
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AccesosMultiplesActivity.this);
+        alertDialogBuilder.setTitle("Alerta");
+        alertDialogBuilder
+                .setMessage(texto)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                }).create().show();
+    }
 
     @Override
     public void onBackPressed() {

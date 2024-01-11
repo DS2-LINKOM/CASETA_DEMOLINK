@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -184,7 +185,15 @@ public class AccesosSalidasGrupalActivity extends mx.linkom.caseta_demolink.Menu
         Registrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Validacion();
+                Registrar.setEnabled(false);
+
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        botonPresionado(0);
+                        Validacion();
+                    }
+                }, 300);
             }
         });
         Tipo = (TextView)findViewById(R.id.setTipo);
@@ -1039,11 +1048,13 @@ public class AccesosSalidasGrupalActivity extends mx.linkom.caseta_demolink.Menu
                 .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
-                        Intent i = new Intent(getApplicationContext(), EntradasSalidasActivity.class);
+                        botonPresionado(1);
+
+                        /*Intent i = new Intent(getApplicationContext(), EntradasSalidasActivity.class);
                         startActivity(i);
-                        finish();
+                        finish();*/
                     }
-                }).create().show();
+                }).setCancelable(false).create().show();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -1190,6 +1201,7 @@ public class AccesosSalidasGrupalActivity extends mx.linkom.caseta_demolink.Menu
 
 
                 }else {
+                    botonPresionado(1);
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AccesosSalidasGrupalActivity.this);
                     alertDialogBuilder.setTitle("Alerta");
                     alertDialogBuilder
@@ -1209,6 +1221,8 @@ public class AccesosSalidasGrupalActivity extends mx.linkom.caseta_demolink.Menu
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("TAG","Error: " + error.toString());
+                botonPresionado(1);
+                alertaErrorAlRegistrar("Error al registrar visita \n\nNo se ha podido establecer comunicación con el servidor, inténtelo de nuevo");
             }
         }){
             @Override
@@ -1236,6 +1250,33 @@ public class AccesosSalidasGrupalActivity extends mx.linkom.caseta_demolink.Menu
         requestQueue.add(stringRequest);
 
 
+    }
+
+    public void botonPresionado(int estado){
+        //estado --> 0=presionado   1=restablecer
+
+        Button button = Registrar;
+
+        if (estado == 0){
+            button.setBackgroundResource(R.drawable.btn_presionado);
+            button.setTextColor(0xFF5A6C81);
+        }else if (estado == 1){
+            button.setBackgroundResource(R.drawable.ripple_effect);
+            button.setTextColor(0xFF27374A);
+            button.setEnabled(true);
+        }
+    }
+
+    public void alertaErrorAlRegistrar(String texto){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AccesosSalidasGrupalActivity.this);
+        alertDialogBuilder.setTitle("Alerta");
+        alertDialogBuilder
+                .setMessage(texto)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                }).create().show();
     }
 
     @Override

@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -128,7 +129,15 @@ public class RecepcionActivity extends mx.linkom.caseta_demolink.Menu {
         Registrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Validacion();
+                Registrar.setEnabled(false);
+
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        botonPresionado(0);
+                        Validacion();
+                    }
+                }, 300);
             }
         });
         Numero_o.setVisibility(View.VISIBLE);
@@ -245,11 +254,13 @@ public class RecepcionActivity extends mx.linkom.caseta_demolink.Menu {
                 .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
-                        Intent i = new Intent(getApplicationContext(), mx.linkom.caseta_demolink.CorrespondenciaActivity.class);
+                        botonPresionado(1);
+
+                        /*Intent i = new Intent(getApplicationContext(), CorrespondenciaActivity.class);
                         startActivity(i);
-                        finish();
+                        finish();*/
                     }
-                }).create().show();
+                }).setCancelable(false).create().show();
     }
 
     public void calles() {
@@ -401,6 +412,8 @@ public class RecepcionActivity extends mx.linkom.caseta_demolink.Menu {
         if (Calle.getSelectedItem().equals("Seleccionar..") || Calle.getSelectedItem().equals("Seleccionar...") || Numero.getSelectedItem().equals("Seleccionar...")) {
 
             pd.dismiss();
+            botonPresionado(1);
+
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(RecepcionActivity.this);
             alertDialogBuilder.setTitle("Alerta");
             alertDialogBuilder
@@ -421,6 +434,8 @@ public class RecepcionActivity extends mx.linkom.caseta_demolink.Menu {
 
                     if (response.equals("error")) {
                         pd.dismiss();
+                        botonPresionado(1);
+
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(RecepcionActivity.this);
                         alertDialogBuilder.setTitle("Alerta");
                         alertDialogBuilder
@@ -449,6 +464,8 @@ public class RecepcionActivity extends mx.linkom.caseta_demolink.Menu {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.e("TAG", "Error: " + error.toString());
+                    botonPresionado(1);
+                    alertaErrorAlRegistrar("Error al registrar \n\nNo se ha podido establecer comunicación con el servidor, inténtelo de nuevo");
                 }
             }) {
                 @Override
@@ -480,6 +497,7 @@ public class RecepcionActivity extends mx.linkom.caseta_demolink.Menu {
 
                 if (response.equals("error")) {
                     pd.dismiss();
+                    botonPresionado(1);
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(RecepcionActivity.this);
                     alertDialogBuilder.setTitle("Alerta");
@@ -511,6 +529,8 @@ public class RecepcionActivity extends mx.linkom.caseta_demolink.Menu {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("TAG", "Error: " + error.toString());
+                botonPresionado(1);
+                alertaErrorAlRegistrar("Error al registrar \n\nNo se ha podido establecer comunicación con el servidor, inténtelo de nuevo");
             }
         }) {
             @Override
@@ -662,6 +682,33 @@ public class RecepcionActivity extends mx.linkom.caseta_demolink.Menu {
         return false;
     }
 
+    public void botonPresionado(int estado) {
+        //estado --> 0=presionado   1=restablecer
+
+        Button button = Registrar;
+
+        if (estado == 0) {
+            button.setBackgroundResource(R.drawable.btn_presionado);
+            button.setTextColor(0xFF5A6C81);
+        } else if (estado == 1) {
+            button.setBackgroundResource(R.drawable.ripple_effect);
+            button.setTextColor(0xFF27374A);
+            button.setEnabled(true);
+        }
+    }
+
+    public void alertaErrorAlRegistrar(String texto) {
+        pd.dismiss();
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(RecepcionActivity.this);
+        alertDialogBuilder.setTitle("Alerta");
+        alertDialogBuilder
+                .setMessage(texto)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                }).create().show();
+    }
 
     @Override
     public void onBackPressed() {
