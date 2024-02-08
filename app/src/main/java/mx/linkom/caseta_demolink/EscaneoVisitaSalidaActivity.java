@@ -20,13 +20,17 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.webkit.URLUtil;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
@@ -50,7 +54,9 @@ import org.json.JSONException;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -86,7 +92,9 @@ public class EscaneoVisitaSalidaActivity extends mx.linkom.caseta_demolink.Menu 
     String rutaImagenPlaca, nombreImagenPlaca;
     Uri uri_img;
     boolean modeloCargado=false;
-    JSONArray ja5,ja6;
+    JSONArray ja5,ja6,ja7;
+    Spinner spinnerPlacas;
+    ArrayList<String> arrayPlacas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +117,10 @@ public class EscaneoVisitaSalidaActivity extends mx.linkom.caseta_demolink.Menu 
         FotoPlacaView = (LinearLayout) findViewById(R.id.FotoPlacaView);
         btnFotoPlaca = (Button) findViewById(R.id.btnFotoPlaca);
         viewPlaca = (ImageView) findViewById(R.id.viewPlaca);
+
+        spinnerPlacas = (Spinner) findViewById(R.id.spinerPlacasParaSalidas);
+        spinnerPlacas.setEnabled(false);
+        arrayPlacas = new ArrayList<String>();
 
 
         // qr.setFilters(new InputFilter[] { filter,new InputFilter.AllCaps() {
@@ -213,7 +225,43 @@ public class EscaneoVisitaSalidaActivity extends mx.linkom.caseta_demolink.Menu 
         initQR();
         rlOtro.setVisibility(View.VISIBLE);
 
+        buscarPlacas();
 
+
+    }
+
+    private void buscarPlacas() {
+        String URL = "https://demo.linkom.mx/plataforma/casetaV2/controlador/dm_access/placasHoy.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                response = response.replace("][", ",");
+                Log.e("Placas", response);
+
+                if (response.length() > 0) {
+                    try {
+                        ja7 = new JSONArray(response);
+                        cargarSpinner();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("TAG", "Error: " + error.toString());
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                return params;
+            }
+        };
+        requestQueue.add(stringRequest);
     }
 
     InputFilter filter = new InputFilter() {
@@ -227,6 +275,65 @@ public class EscaneoVisitaSalidaActivity extends mx.linkom.caseta_demolink.Menu 
             return null;
         }
     };
+
+    public void cargarSpinner(){
+
+
+        try{
+            for (int i=0;i<ja7.length();i+=1){
+                arrayPlacas.add(ja7.getString(i+0));
+            }
+
+            Collections.sort(arrayPlacas);
+
+            if (ja7.length() > 0){
+                spinnerPlacas.setEnabled(true);
+                arrayPlacas.add(0,"Seleccionar..");
+                arrayPlacas.add(1,"Seleccionar...");
+            }else {
+                arrayPlacas.add(0,"No se econtraron placas");
+            }
+
+
+            ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,arrayPlacas);
+            spinnerPlacas.setAdapter(adapter1);
+            spinnerPlacas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                    if(spinnerPlacas.getSelectedItem().equals("Seleccionar..")){
+                        arrayPlacas.remove(0);
+                    }else if(spinnerPlacas.getSelectedItem().equals("Seleccionar...")){
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(EscaneoVisitaSalidaActivity.this);
+                        alertDialogBuilder.setTitle("Alerta");
+                        alertDialogBuilder
+                                .setMessage("No selecciono ninguna placa...")
+                                .setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+
+                                    }
+                                }).create().show();
+                    }else{
+                        Log.e("CALLE", spinnerPlacas.getSelectedItem().toString());
+
+                        placas.setText(spinnerPlacas.getSelectedItem().toString());
+
+                        if (spinnerPlacas.getSelectedItem().toString() != "No se econtraron placas" ){
+                            placas();
+                        }
+                    }
+
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
     //ALETORIO
     Random primero = new Random();
@@ -421,6 +528,7 @@ public class EscaneoVisitaSalidaActivity extends mx.linkom.caseta_demolink.Menu 
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
