@@ -121,6 +121,7 @@ public class EscaneoVisitaSalidaActivity extends mx.linkom.caseta_demolink.Menu 
         spinnerPlacas = (Spinner) findViewById(R.id.spinerPlacasParaSalidas);
         spinnerPlacas.setEnabled(false);
         arrayPlacas = new ArrayList<String>();
+        Global.setBuscarPorPlaca(false);
 
 
         // qr.setFilters(new InputFilter[] { filter,new InputFilter.AllCaps() {
@@ -832,6 +833,7 @@ public class EscaneoVisitaSalidaActivity extends mx.linkom.caseta_demolink.Menu 
 
                             try {
                                 ja1 = new JSONArray(response);
+                                Conf.setPlacas(placas.getText().toString().trim());
                                 placas2(ja1.getString(2));
                             } catch (JSONException e) {
                                 // placas.setText("");
@@ -950,18 +952,21 @@ public class EscaneoVisitaSalidaActivity extends mx.linkom.caseta_demolink.Menu 
                         if (ja2.getString(5).equals("2")) {
                             Conf.setST("Aceptado");
                             Conf.setQR(ja2.getString(12));
+                            Global.setBuscarPorPlaca(true);
                             Intent i = new Intent(getApplicationContext(), mx.linkom.caseta_demolink.AccesosMultiplesSalidasActivity.class);
                             startActivity(i);
                             finish();
                         } else if (palabra.equals("M")) {
                             Conf.setST("Aceptado");
                             Conf.setQR(ja2.getString(12));
+                            Global.setBuscarPorPlaca(true);
                             Intent i = new Intent(getApplicationContext(), mx.linkom.caseta_demolink.AccesosMultiplesSalidasActivity.class);
                             startActivity(i);
                             finish();
                         } else {
                             Conf.setST("Aceptado");
                             Conf.setQR(ja2.getString(12));
+                            Global.setBuscarPorPlaca(true);
                             Intent i = new Intent(getApplicationContext(), mx.linkom.caseta_demolink.AccesosSalidasActivity.class);
                             startActivity(i);
                             finish();

@@ -699,8 +699,12 @@ public class AccesosSalidasActivity extends mx.linkom.caseta_demolink.Menu {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
+
+                String placa = (Global.isBuscarPorPlaca()) ? Conf.getPlacas() : "";
+
                 params.put("id_visitante", id_visitante.trim());
                 params.put("id_residencial", Conf.getResid().trim());
+                params.put("placas", placa.trim());
 
                 return params;
             }
