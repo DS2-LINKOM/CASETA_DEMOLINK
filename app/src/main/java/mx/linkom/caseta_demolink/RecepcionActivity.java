@@ -2,6 +2,7 @@ package mx.linkom.caseta_demolink;
 
 import android.app.ActivityManager;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,12 +14,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.speech.RecognizerIntent;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -54,6 +58,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
@@ -85,6 +90,9 @@ public class RecepcionActivity extends mx.linkom.caseta_demolink.Menu {
 
     String rutaImagen1 = "", nombreImagen1 = "";
 
+    private ImageButton btnMicrofonoComentarios;
+    private static final int TXT_COMENTARIOS = 200;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +112,8 @@ public class RecepcionActivity extends mx.linkom.caseta_demolink.Menu {
         calles();
 
         comen = (EditText) findViewById(R.id.setComent);
+        comen.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
+
         foto = (Button) findViewById(R.id.foto);
         Registrar = (Button) findViewById(R.id.btnRegistrar);
         View = (LinearLayout) findViewById(R.id.View);
@@ -111,6 +121,14 @@ public class RecepcionActivity extends mx.linkom.caseta_demolink.Menu {
         espacio = (LinearLayout) findViewById(R.id.espacio);
         espacio2 = (LinearLayout) findViewById(R.id.espacio2);
         ViewFoto = (ImageView) findViewById(R.id.viewFoto);
+
+        btnMicrofonoComentarios = (ImageButton) findViewById(R.id.btnMicrofonoComentarios);
+        btnMicrofonoComentarios.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iniciarEntradVoz("Diga los comentarios para esta correspondencia", TXT_COMENTARIOS);
+            }
+        });
 
         foto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,6 +188,20 @@ public class RecepcionActivity extends mx.linkom.caseta_demolink.Menu {
 
     //IMAGEN FOTO
 
+    private void iniciarEntradVoz(String promt, int campo) {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, promt);
+
+        intent.putExtra("FIELD_EXTRA", campo);
+
+        try {
+            startActivityForResult(intent, campo);
+        } catch (ActivityNotFoundException e) {
+            Log.e("RECTETXT", e.toString());
+        }
+    }
 
     public void imgFoto() {
         Intent intentCaptura = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -235,6 +267,12 @@ public class RecepcionActivity extends mx.linkom.caseta_demolink.Menu {
             espacio2.setVisibility(View.VISIBLE);
 
 
+        }
+
+        if (requestCode == TXT_COMENTARIOS && data != null) {
+            ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            String txtAnterior = " " + comen.getText() + " " + result.get(0);
+            comen.setText(txtAnterior);
         }
     }
 

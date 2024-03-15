@@ -259,6 +259,7 @@ public class EscaneoVisitaSalidaActivity extends mx.linkom.caseta_demolink.Menu 
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
+                params.put("id_residencial", Conf.getResid().trim());
                 return params;
             }
         };
