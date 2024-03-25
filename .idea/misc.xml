@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/APPS CASETA/DEMO/CASETA_DEMOLINK/app/src/main/res/drawable-mdpi/btn_presionado.xml" value="0.1" />
         <entry key="..\:/APPS CASETA/DEMO/CASETA_DEMOLINK/app/src/main/res/drawable-mdpi/ripple_effect.xml" value="0.1" />
+        <entry key="..\:/APPS CASETA/DEMO/CASETA_DEMOLINK/app/src/main/res/drawable/ic_calendario_reservaciones.xml" value="0.1285" />
         <entry key="..\:/APPS CASETA/DEMO/CASETA_DEMOLINK/app/src/main/res/layout/acitivity_accesostrabajador.xml" value="0.1" />
         <entry key="..\:/APPS CASETA/DEMO/CASETA_DEMOLINK/app/src/main/res/layout/acitivity_accesostrabajadorsalida.xml" value="0.1" />
         <entry key="..\:/APPS CASETA/DEMO/CASETA_DEMOLINK/app/src/main/res/layout/activity_accesos_salidas.xml" value="0.1" />
@@ -15,11 +16,15 @@
         <entry key="..\:/APPS CASETA/DEMO/CASETA_DEMOLINK/app/src/main/res/layout/activity_escaneo_visita.xml" value="0.20416666666666666" />
         <entry key="..\:/APPS CASETA/DEMO/CASETA_DEMOLINK/app/src/main/res/layout/activity_escaneo_visita_salidas.xml" value="0.18" />
         <entry key="..\:/APPS CASETA/DEMO/CASETA_DEMOLINK/app/src/main/res/layout/activity_incidencia.xml" value="0.1" />
+        <entry key="..\:/APPS CASETA/DEMO/CASETA_DEMOLINK/app/src/main/res/layout/activity_item_lista_reservaciones.xml" value="0.20416666666666666" />
+        <entry key="..\:/APPS CASETA/DEMO/CASETA_DEMOLINK/app/src/main/res/layout/activity_lista_reservaciones.xml" value="0.20416666666666666" />
         <entry key="..\:/APPS CASETA/DEMO/CASETA_DEMOLINK/app/src/main/res/layout/activity_preentradas.xml" value="0.22" />
         <entry key="..\:/APPS CASETA/DEMO/CASETA_DEMOLINK/app/src/main/res/layout/activity_preentradasgrupalqr.xml" value="0.1" />
         <entry key="..\:/APPS CASETA/DEMO/CASETA_DEMOLINK/app/src/main/res/layout/activity_preentradasmultiplesqr.xml" value="0.1" />
         <entry key="..\:/APPS CASETA/DEMO/CASETA_DEMOLINK/app/src/main/res/layout/activity_recepcion.xml" value="0.18" />
         <entry key="..\:/APPS CASETA/DEMO/CASETA_DEMOLINK/app/src/main/res/layout/activity_regtrab.xml" value="0.1" />
+        <entry key="..\:/APPS CASETA/DEMO/CASETA_DEMOLINK/app/src/main/res/layout/activity_reportes.xml" value="0.20416666666666666" />
+        <entry key="..\:/APPS CASETA/DEMO/CASETA_DEMOLINK/app/src/main/res/layout/activity_reservacion.xml" value="0.20416666666666666" />
         <entry key="..\:/APPS CASETA/DEMO/CASETA_DEMOLINK/app/src/main/res/layout/activity_rondinincidencias.xml" value="0.1" />
         <entry key="..\:/APPS CASETA/DEMO/CASETA_DEMOLINK/app/src/main/res/layout/activity_rondinincidencias_qr.xml" value="0.1" />
       </map>
