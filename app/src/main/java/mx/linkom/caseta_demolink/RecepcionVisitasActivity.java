@@ -72,7 +72,7 @@ private Configuracion Conf;
     }
 
     public void entradas() {
-        String URL = "https://demo.linkom.mx/plataforma/casetaV2/controlador/dm_access/visitas_recep_1.php";
+        String URL = "https://demo.kap-adm.mx/plataforma/casetaV2/controlador/dm_access/visitas_recep_1.php";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
 
@@ -109,7 +109,7 @@ private Configuracion Conf;
     }
 
     public void salidas() {
-        String URL = "https://demo.linkom.mx/plataforma/casetaV2/controlador/dm_access/visitas_recep_2.php";
+        String URL = "https://demo.kap-adm.mx/plataforma/casetaV2/controlador/dm_access/visitas_recep_2.php";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
 

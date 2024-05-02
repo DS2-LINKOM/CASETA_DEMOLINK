@@ -69,7 +69,7 @@ public class PlacasActivity extends mx.linkom.caseta_demolink.Menu {
 
     public void check() {
 
-        String url = "https://demo.linkom.mx/plataforma/casetaV2/controlador/dm_access/placas_1.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
+        String url = "https://demo.kap-adm.mx/plataforma/casetaV2/controlador/dm_access/placas_1.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -113,7 +113,7 @@ public class PlacasActivity extends mx.linkom.caseta_demolink.Menu {
 
     public void check2() {
 
-        String url = "https://demo.linkom.mx/plataforma/casetaV2/controlador/dm_access/placas_2.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
+        String url = "https://demo.kap-adm.mx/plataforma/casetaV2/controlador/dm_access/placas_2.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {

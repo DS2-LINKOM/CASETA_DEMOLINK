@@ -180,7 +180,7 @@ public class EscaneoTrabajadorActivity extends mx.linkom.caseta_demolink.Menu {
 
 
     public void QR() {
-        String url = "https://demo.linkom.mx/plataforma/casetaV2/controlador/dm_access/tbj_php1.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
+        String url = "https://demo.kap-adm.mx/plataforma/casetaV2/controlador/dm_access/tbj_php1.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -224,7 +224,7 @@ public class EscaneoTrabajadorActivity extends mx.linkom.caseta_demolink.Menu {
 
 
     public void CodigoTr() {
-        String url = "https://demo.linkom.mx/plataforma/casetaV2/controlador/dm_access/tbj_php1.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
+        String url = "https://demo.kap-adm.mx/plataforma/casetaV2/controlador/dm_access/tbj_php1.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {

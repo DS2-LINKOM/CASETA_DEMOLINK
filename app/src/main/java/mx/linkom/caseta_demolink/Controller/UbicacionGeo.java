@@ -59,8 +59,8 @@ public class UbicacionGeo extends Fragment {
 
 
     public void horarios() {
-        String URL = "https://demo.linkom.mx/plataforma/casetaV2/controlador/dm_access/rondines_1.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
-       // String URL = "https://demo.linkom.mx/plataforma/casetaV2/controlador/dm_access/rondines_1.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
+        String URL = "https://demo.kap-adm.mx/plataforma/casetaV2/controlador/dm_access/rondines_1.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
+       // String URL = "https://demo.kap-adm.mx/plataforma/casetaV2/controlador/dm_access/rondines_1.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
 

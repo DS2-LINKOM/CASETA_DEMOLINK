@@ -343,7 +343,7 @@ public class RegTrab3Activity extends mx.linkom.caseta_demolink.Menu {
     }
 
     public void Eliminar() {
-        String URL = "https://demo.linkom.mx/plataforma/casetaV2/controlador/dm_access/reg_traba5.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
+        String URL = "https://demo.kap-adm.mx/plataforma/casetaV2/controlador/dm_access/reg_traba5.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
 
@@ -400,7 +400,7 @@ public class RegTrab3Activity extends mx.linkom.caseta_demolink.Menu {
     }
 
     public void Datos() {
-        String URL = "https://demo.linkom.mx/plataforma/casetaV2/controlador/dm_access/reg_traba6.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
+        String URL = "https://demo.kap-adm.mx/plataforma/casetaV2/controlador/dm_access/reg_traba6.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
 
@@ -527,7 +527,7 @@ public class RegTrab3Activity extends mx.linkom.caseta_demolink.Menu {
     }
 
     public void Registro() {
-        String URL = "https://demo.linkom.mx/plataforma/casetaV2/controlador/dm_access/reg_traba7.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
+        String URL = "https://demo.kap-adm.mx/plataforma/casetaV2/controlador/dm_access/reg_traba7.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
 

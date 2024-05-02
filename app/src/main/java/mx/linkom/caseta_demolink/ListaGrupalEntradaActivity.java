@@ -151,7 +151,7 @@ public class ListaGrupalEntradaActivity extends mx.linkom.caseta_demolink.Menu {
 
 
     public void invitados() {
-        String URL = "https://demo.linkom.mx/plataforma/casetaV2/controlador/dm_access/vst_gru_1.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
+        String URL = "https://demo.kap-adm.mx/plataforma/casetaV2/controlador/dm_access/vst_gru_1.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
 
