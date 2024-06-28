@@ -61,6 +61,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import mx.linkom.caseta_demolink.Componentes.LoadingProcess;
 import mx.linkom.caseta_demolink.detectPlaca.DetectarPlaca;
 import mx.linkom.caseta_demolink.detectPlaca.objectDetectorClass;
 import mx.linkom.caseta_demolink.offline.Database.UrisContentProvider;
@@ -96,6 +97,8 @@ public class EscaneoVisitaSalidaActivity extends mx.linkom.caseta_demolink.Menu 
     Spinner spinnerPlacas;
     ArrayList<String> arrayPlacas;
 
+    LoadingProcess loadingProcess;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +111,8 @@ public class EscaneoVisitaSalidaActivity extends mx.linkom.caseta_demolink.Menu 
         Qr = (LinearLayout) findViewById(R.id.qr);
         Qr2 = (LinearLayout) findViewById(R.id.qr2);
         Lector = (Button) findViewById(R.id.btnLector);
+
+        loadingProcess = new LoadingProcess(this);
 
         qr = (EditText) findViewById(R.id.editText);
         Buscar = (Button) findViewById(R.id.btnBuscar);
@@ -317,6 +322,8 @@ public class EscaneoVisitaSalidaActivity extends mx.linkom.caseta_demolink.Menu 
                                 }).create().show();
                     }else{
                         Log.e("CALLE", spinnerPlacas.getSelectedItem().toString());
+
+                        loadingProcess.show();
 
                         placas.setText(spinnerPlacas.getSelectedItem().toString());
 
@@ -780,6 +787,8 @@ public class EscaneoVisitaSalidaActivity extends mx.linkom.caseta_demolink.Menu 
     public void placas() {
         if (placas.getText().toString().equals("")) {
 
+            loadingProcess.cancel();
+
             placas.setText("");
             rlOtro.setVisibility(View.VISIBLE);
 
@@ -793,6 +802,8 @@ public class EscaneoVisitaSalidaActivity extends mx.linkom.caseta_demolink.Menu 
                         }
                     }).create().show();
         } else if (placas.getText().toString().equals(" ")) {
+
+            loadingProcess.cancel();
 
             placas.setText("");
 
@@ -816,6 +827,7 @@ public class EscaneoVisitaSalidaActivity extends mx.linkom.caseta_demolink.Menu 
                 public void onResponse(String response) {
 
                     if (response.equals("error")) {
+                        loadingProcess.cancel();
                         rlOtro.setVisibility(View.VISIBLE);
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(EscaneoVisitaSalidaActivity.this);
                         alertDialogBuilder.setTitle("Alerta");
@@ -845,6 +857,7 @@ public class EscaneoVisitaSalidaActivity extends mx.linkom.caseta_demolink.Menu 
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    loadingProcess.cancel();
                     Log.e("TAG", "Error: " + error.toString());
                 }
             }) {
@@ -974,6 +987,7 @@ public class EscaneoVisitaSalidaActivity extends mx.linkom.caseta_demolink.Menu 
                         }
 
                     } catch (JSONException e) {
+                        loadingProcess.cancel();
                         e.printStackTrace();
                     }
                 }
@@ -983,6 +997,7 @@ public class EscaneoVisitaSalidaActivity extends mx.linkom.caseta_demolink.Menu 
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                loadingProcess.cancel();
                 Log.e("TAG", "Error: " + error.toString());
             }
         }) {
