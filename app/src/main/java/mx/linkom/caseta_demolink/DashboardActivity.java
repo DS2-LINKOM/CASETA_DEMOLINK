@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -52,14 +53,14 @@ import mx.linkom.caseta_demolink.offline.Servicios.testInternet;
 public class DashboardActivity extends  mx.linkom.caseta_demolink.Menu {
     private FirebaseAuth fAuth;
     private mx.linkom.caseta_demolink.Configuracion Conf;
-    JSONArray ja1,ja2,ja3;
+    JSONArray ja1,ja2,ja3,ja4;
     TextView perma,sali,entr,nombre, textViewVersionDisponible;
     TextView permaT,saliT,entrT;
     String var1,var2,var3,var4,var5;
     String var6,var7,var8,var9,var10;
     LinearLayout rlVistantes,rlTrabajadores;
 
-    private GridView gridList,gridList2;
+    private GridView gridList,gridList2,gridList3;
 
     /*ImageView iconoInternet;
     boolean Offline = false;*/
@@ -73,6 +74,9 @@ public class DashboardActivity extends  mx.linkom.caseta_demolink.Menu {
     }
 
     ConstraintLayout anuncioVersiones, constLayoutAnuncioFotosPendientes;
+    private Handler handler = new Handler();
+    private Runnable runnable;
+    private final int INTERVALO_ACTUALIZACION = 10000; // 10 segundos
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -87,6 +91,7 @@ public class DashboardActivity extends  mx.linkom.caseta_demolink.Menu {
         Conf = new mx.linkom.caseta_demolink.Configuracion(this);
         gridList = (GridView)findViewById(R.id.gridList);
         gridList2 = (GridView)findViewById(R.id.gridList2);
+        gridList3 = (GridView)findViewById(R.id.gridList3);
 
         nombre = (TextView)findViewById(R.id.nombre);
         perma = (TextView)findViewById(R.id.setPermanecen);
@@ -270,7 +275,7 @@ public class DashboardActivity extends  mx.linkom.caseta_demolink.Menu {
 
     public void menu() {
 
-        String URL = "https://demo.kap-adm.mx/plataforma/casetaV2/controlador/dm_access/menu.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
+        String URL = "https://demo.elkm.mx/plataforma/casetaV2/controlador/dm_access/menu.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
 
@@ -316,7 +321,7 @@ public class DashboardActivity extends  mx.linkom.caseta_demolink.Menu {
 
     public void Contador(){
 
-        String URL = "https://demo.kap-adm.mx/plataforma/casetaV2/controlador/dm_access/contadores.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
+        String URL = "https://demo.elkm.mx/plataforma/casetaV2/controlador/dm_access/contadores.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
 
@@ -352,7 +357,7 @@ public class DashboardActivity extends  mx.linkom.caseta_demolink.Menu {
 
     public void Contador2(){
 
-        String URL = "https://demo.kap-adm.mx/plataforma/casetaV2/controlador/dm_access/contadoresT.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
+        String URL = "https://demo.elkm.mx/plataforma/casetaV2/controlador/dm_access/contadoresT.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
 
@@ -633,6 +638,151 @@ public class DashboardActivity extends  mx.linkom.caseta_demolink.Menu {
             }
         });
     }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        iniciarActualizacionAutomatica();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        detenerActualizacionAutomatica();
+    }
+
+    private void iniciarActualizacionAutomatica() {
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                suma(); // Llama a tu método que actualiza gridList3
+                handler.postDelayed(this, INTERVALO_ACTUALIZACION);
+            }
+        };
+        handler.post(runnable);
+    }
+
+    private void detenerActualizacionAutomatica() {
+        handler.removeCallbacks(runnable);
+    }
+
+    public void suma() {
+        Log.e("Andrea1 ", "LINKOM ST: " + "bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon());
+
+        String URL = "https://demo.elkm.mx/plataforma/casetaV2/controlador/dm_access/rondines_suma.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplication());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                response = response.replace("][", ",");
+                Log.e("Andrea1 ", "LINKOM ST: " +response);
+
+                if (response.equals("error")) {
+                    try {
+                        String $arreglo[]={"0"};
+                        ja4 = new JSONArray($arreglo);
+
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                } else {
+                    try {
+                        ja4 = new JSONArray(response);
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+
+                llenado3();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Error ", "Id: " + error.toString());
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+
+                Map<String, String> params = new HashMap<>();
+                params.put("guardia_de_entrada", Conf.getUsu().trim());
+                params.put("id_residencial", Conf.getResid().trim());
+                return params;
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
+
+
+    public void llenado3(){
+        ArrayList<DashClassGridRondin> lista5 = new ArrayList<DashClassGridRondin>();
+
+        try {
+
+            lista5.add(new DashClassGridRondin(R.drawable.ic_baseline_add_location_24,"Rondines",ja4.getString(0),"#40FFA3"));
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
+        gridList3.setAdapter(new adaptador_Modulo(this, R.layout.activity_dash_lista, lista5){
+            @Override
+            public void onEntrada(Object entrada, View view) {
+                if (entrada != null) {
+                    ImageView add = (ImageView) view.findViewById(R.id.imageView);
+                    if (add != null)
+                        add.setImageResource(((DashClassGridRondin) entrada).getImagen());
+
+                    final TextView title = (TextView) view.findViewById(R.id.title);
+                    if (title != null)
+                        title.setText(((DashClassGridRondin) entrada).getTitle());
+
+                    final TextView subtitle = (TextView) view.findViewById(R.id.sub);
+                    final TextView sub_circle = (TextView) view.findViewById(R.id.sub_circle);
+
+                    if (((DashClassGridRondin) entrada).getTitle().equalsIgnoreCase("Rondines") && Integer.parseInt(((DashClassGridRondin) entrada).getSubtitle()) > 0){
+                        subtitle.setVisibility(View.GONE);
+                        if (sub_circle != null)
+                            sub_circle.setText(((DashClassGridRondin) entrada).getSubtitle());
+                    }else {
+                        if (subtitle != null)
+                            subtitle.setText(((DashClassGridRondin) entrada).getSubtitle());
+                    }
+
+                    final LinearLayout line = (LinearLayout) view.findViewById(R.id.line);
+                    final LinearLayout circle = (LinearLayout) view.findViewById(R.id.circle);
+
+
+                    if (((DashClassGridRondin) entrada).getTitle().equalsIgnoreCase("Rondines") && Integer.parseInt(((DashClassGridRondin) entrada).getSubtitle()) > 0){
+                        line.setVisibility(View.GONE);
+                        circle.setVisibility(View.VISIBLE);
+                    }else {
+                        if (line != null)
+                            line.setBackgroundColor(Color.parseColor(((DashClassGridRondin) entrada).getColorCode()));
+                    }
+
+                    gridList3.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                            if(position==0) {
+                                Intent placas = new Intent(getApplication(), mx.linkom.caseta_demolink.Rondines.class);
+                                startActivity(placas);
+                                finish();
+                            }
+                        }
+                    });
+
+                }
+            }
+
+        });
+    }
+
+
     @Override
     public void onBackPressed(){
         super.onBackPressed();

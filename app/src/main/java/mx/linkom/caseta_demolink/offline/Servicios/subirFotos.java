@@ -1,6 +1,8 @@
 package mx.linkom.caseta_demolink.offline.Servicios;
 
-import static solar.blaz.date.week.WeekDatePicker.TAG;
+//import static solar.blaz.date.week.WeekDatePicker.TAG;
+
+import static android.content.ContentValues.TAG;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;

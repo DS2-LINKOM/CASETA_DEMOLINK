@@ -76,7 +76,7 @@
                 android:layout_marginEnd="40dp"
                 android:layout_marginBottom="12dp"
                 android:background="@drawable/banner_background"
-                android:visibility="gone"
+                android:visibility="visible"
                 >
 
                 <TextView
@@ -176,6 +176,12 @@
         ></GridView>
     <GridView
         android:id="@+id/gridList2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:numColumns="1"></GridView>
+    <GridView
+        android:id="@+id/gridList3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"

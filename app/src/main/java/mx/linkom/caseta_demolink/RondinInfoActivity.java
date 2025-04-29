@@ -96,7 +96,7 @@ public class RondinInfoActivity extends mx.linkom.caseta_demolink.Menu  implemen
 
 
     public void rondin() {
-        String URL = "https://demo.kap-adm.mx/plataforma/casetaV2/controlador/dm_access/rondines_2.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
+        String URL = "https://demo.elkm.mx/plataforma/casetaV2/controlador/dm_access/rondines_2.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
 
@@ -133,7 +133,7 @@ public class RondinInfoActivity extends mx.linkom.caseta_demolink.Menu  implemen
     }
 
     public void ubicaciones() {
-        String URL = "https://demo.kap-adm.mx/plataforma/casetaV2/controlador/dm_access/rondines_3.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
+        String URL = "https://demo.elkm.mx/plataforma/casetaV2/controlador/dm_access/rondines_3.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
 
@@ -308,7 +308,7 @@ public class RondinInfoActivity extends mx.linkom.caseta_demolink.Menu  implemen
     }
 
     public void Ubicacion(){
-        String URL = "https://demo.kap-adm.mx/plataforma/casetaV2/controlador/dm_access/rondines_4.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
+        String URL = "https://demo.elkm.mx/plataforma/casetaV2/controlador/dm_access/rondines_4.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override

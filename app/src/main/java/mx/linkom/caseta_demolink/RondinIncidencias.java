@@ -332,7 +332,7 @@ public class RondinIncidencias  extends mx.linkom.caseta_demolink.Menu{
 
 
     public void rondin() {
-        String URL = "https://demo.kap-adm.mx/plataforma/casetaV2/controlador/dm_access/rondines_2.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
+        String URL = "https://demo.elkm.mx/plataforma/casetaV2/controlador/dm_access/rondines_2.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
 
@@ -601,7 +601,7 @@ public class RondinIncidencias  extends mx.linkom.caseta_demolink.Menu{
 
     public void Registrar(final int Id){
 
-        String URL = "https://demo.kap-adm.mx/plataforma/casetaV2/controlador/dm_access/rondines_incidencias.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
+        String URL = "https://demo.elkm.mx/plataforma/casetaV2/controlador/dm_access/rondines_incidencias.php?bd_name="+Conf.getBd()+"&bd_user="+Conf.getBdUsu()+"&bd_pwd="+Conf.getBdCon();
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
